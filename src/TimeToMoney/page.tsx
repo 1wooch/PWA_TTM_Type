@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react";
 
 
-const TextInput: React.FC = () => {
+const TTM: React.FC = () => {
     const [inputValue, setInputValue] = useState<string>('');
     const [storedValue, setStoredValue] = useState<string | null>(null);
   
@@ -36,4 +36,4 @@ const TextInput: React.FC = () => {
       </div>
     );
   };
-export default TextInput;
+export default TTM;
