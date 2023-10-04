@@ -5,7 +5,7 @@ import TTM from './TimeToMoney/page';
 function App() {
   return (
     <div className="App">
-      <h1>test11</h1>
+      <h1>TIME IS MONEY</h1>
       <TTM/>
     </div>
   );

@@ -144,6 +144,7 @@ const TTM: React.FC = () => {
      
       <button onClick={handleSubmit}>Submit</button><button onClick={clearFunc}>Clear</button>
       
+      
         <div>Stored Value: {totalPay}</div> 
       
       
@@ -153,3 +154,6 @@ const TTM: React.FC = () => {
 };
 
 export default TTM;
+/// Add weekly value and store the calculate value with time in local stroage separately and show them in the right side with time stamp.
+/// Add a clear button to clear the local storage and reset the value to 0
+///
