@@ -18,8 +18,16 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".", 
+  "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "id": "TTM_T_PWA",
+  "description": "12121212121212121212121212121212121212121212121212121",
+  "orientation": "any",
+  "lang": "en",
+  "categories": [
+    "finance",
+    "lifestyle"
+  ]
 }
