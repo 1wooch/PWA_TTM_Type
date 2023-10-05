@@ -156,4 +156,5 @@ const TTM: React.FC = () => {
 export default TTM;
 /// Add weekly value and store the calculate value with time in local stroage separately and show them in the right side with time stamp.
 /// Add a clear button to clear the local storage and reset the value to 0
-///
+/// change the name of app and icon for web app
+/// make it work without internet
