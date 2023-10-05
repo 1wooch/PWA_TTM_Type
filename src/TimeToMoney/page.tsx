@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from "react";
 
 const TTM: React.FC = () => {
+  ///EARINING MONEY VALUES///
   const [hourlyPay, setHourlyPay] = useState<number | string>("0");
   const [dayWorkTime, setDayWorkTime] = useState<number | string>("0");
   const [SatTime, setSatTime] = useState<number | string>("0");
   const [sunTime, setSunTime] = useState<number | string>("0");
   const [totalPay, setTotalPay] = useState<number | string>("0");
   const [taxRatio, setTaxRatio] = useState<number | string>("0");
+  ///EARINING MONEY VALUES///
 
+
+  ///Fixed cost Values/// 
+
+  interface fixedcost {
+    name?: string;
+    cost: number;
+  }
+  
+  
+  const [fixedcosts, setFixedcosts] = useState<fixedcost[]>([]); // Initialize fixedcosts as a state variable
+
+  ///Fixed cost Values///
   // Define a state variable to store all form data
   const [formData, setFormData] = useState({
     hourlyPay: 0,
@@ -20,6 +34,7 @@ const TTM: React.FC = () => {
   // Check for and retrieve data from localStorage when the component mounts
   useEffect(() => {
     const savedData = localStorage.getItem("savedData");
+    const fixedcostsLocal = localStorage.getItem("fixedcosts");
     if (savedData) {
       const savedDataJSON = JSON.parse(savedData);
       setHourlyPay(savedDataJSON.hourlyPay);
@@ -28,6 +43,12 @@ const TTM: React.FC = () => {
       setSunTime(savedDataJSON.sunTime);
       setTaxRatio(savedDataJSON.taxRatio);
       calculateTotalPay();
+    }
+    if(fixedcostsLocal){
+      
+      
+        setFixedcosts(JSON.parse(fixedcostsLocal));
+      
     }
   }, []);
 
@@ -42,10 +63,32 @@ const TTM: React.FC = () => {
     });
   }, [hourlyPay, taxRatio, dayWorkTime, SatTime, sunTime]);
 
+
+///Save functions///
   const handleSubmit = () => {
     calculateTotalPay();
+    handleCostSave();
     localStorage.setItem("savedData", JSON.stringify(formData));
   };
+
+  const handleCostSave = () => { //saving the costs in local storage
+    localStorage.setItem("fixedcosts", JSON.stringify(fixedcosts));
+  };
+///Save functions///
+
+///Delete functions///
+  const handleDelete = (indexToDelete: number) => {
+    const updatedFixedcosts = fixedcosts.filter((_, index) => index !== indexToDelete);
+    // handleCostSave();
+    localStorage.removeItem("fixedcosts");
+    localStorage.setItem("fixedcosts", JSON.stringify(updatedFixedcosts));
+    setFixedcosts(updatedFixedcosts);
+
+  };
+
+///Delete functions///
+
+
   const clearFunc = () => {
     setHourlyPay(0);
     setDayWorkTime(0);
@@ -94,61 +137,115 @@ const TTM: React.FC = () => {
   const taxRatiohandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaxRatio(e.target.value);
   };
-    ///change watcher///
+  ///cost change///
+  const handleCostNameChange = (e: React.ChangeEvent<HTMLInputElement>,index:number) => {
+    const updatedFixedcosts = [...fixedcosts];
+    updatedFixedcosts[index] = {
+      ...updatedFixedcosts[index],
+      name: e.target.value,
+    };
+    setFixedcosts(updatedFixedcosts);
+  };
+  const handleCostChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const updatedFixedcosts = [...fixedcosts];
+    updatedFixedcosts[index] = {
+      ...updatedFixedcosts[index],
+      cost: parseFloat(e.target.value) || 0, // Parse the input value as a float or default to 0
+    };
+    setFixedcosts(updatedFixedcosts);
+  };
+ 
+
+  const addCost = () => {
+    const newFixedCost: fixedcost = {
+      name: "",
+      cost: 0,
+    };
+  
+    setFixedcosts([...fixedcosts, newFixedCost]);
+  };
+  ///change watcher///
 
   return (
-    <div>
-        <div>
-            <p>Hourly Pay</p>
-            <input
-                type="text"
-                placeholder="Enter your Hourly Pay"
-                value={hourlyPay === 0 ? "0" : String(hourlyPay)} // Convert to string for input field
-                onChange={HPhandleChange}
-            />
-            <p>Tax Ratio</p>
-             <input
-                type="text"
-                placeholder="Enter your TaxRate"
-                value={taxRatio === 0 ? "0" : String(taxRatio)} // Convert to string for input field
-                onChange={taxRatiohandleChange}
-            />
-        </div>
-        <div>
-            <p>M-F Working Hour</p>
-            <input
-            type="text"
-            placeholder="M-F working hour"
-            value={dayWorkTime === 0 ? "0" : String(dayWorkTime)} 
-            onChange={MFWhandleChange}
-            />
-            <p>
+    <div className="display">
+      <div className="flex"> 
+        <div className="inputArea w-2/5"> 
+          <div className="Base Area">
+              <p>Hourly Pay</p>
+              <input
+                  type="text"
+                  placeholder="Enter your Hourly Pay"
+                  value={hourlyPay === 0 ? "0" : String(hourlyPay)} // Convert to string for input field
+                  onChange={HPhandleChange}
+              />
+              <p>Tax Ratio</p>
+              <input
+                  type="text"
+                  placeholder="Enter your TaxRate"
+                  value={taxRatio === 0 ? "0" : String(taxRatio)} // Convert to string for input field
+                  onChange={taxRatiohandleChange}
+              />
+          </div>
+          <div className="workingHour area">
+              <p>M-F Working Hour</p>
+              <input
+              type="text"
+              placeholder="M-F working hour"
+              value={dayWorkTime === 0 ? "0" : String(dayWorkTime)} 
+              onChange={MFWhandleChange}
+              />
+              <p>
                 Saturday Working Hour
-            </p>
-            <input
-            type="text"
-            placeholder="Saturday working hour"
-            value={SatTime === 0 ? "0" : String(SatTime)} 
-            onChange={SathandleChange}
-            />
-            <p>
+              </p>
+              <input
+              type="text"
+              placeholder="Saturday working hour"
+              value={SatTime === 0 ? "0" : String(SatTime)} 
+              onChange={SathandleChange}
+              />
+              <p>
                 Sunday Working Hour
-            </p>
-            <input
-            type="text"
-            placeholder="Sunday working hour"
-            value={sunTime === 0 ? "0" : String(sunTime)} 
-            onChange={SunhandleChange}
-            />
+              </p>
+              <input
+              type="text"
+              placeholder="Sunday working hour"
+              value={sunTime === 0 ? "0" : String(sunTime)} 
+              onChange={SunhandleChange}
+              />
+          </div>
         </div>
-     
-      <button onClick={handleSubmit}>Submit</button><button onClick={clearFunc}>Clear</button>
-      
-      
-        <div>Stored Value: {totalPay}</div> 
-      
-      
+        <div className="History w-3/5">
+            <h1>Fixed Spend</h1>
 
+            <div>
+            {fixedcosts.map((row, index) => (
+              <div key={index}>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  value={row.name}
+                  onChange={(e) => handleCostNameChange(e, index)}
+                />
+                <input
+                  type="text"
+                  placeholder="Value"
+                  value={row.cost.toString()} // Assuming cost is the property name
+                  onChange={(e) => handleCostChange(e, index)} // Updated event handler name
+                />
+                <button onClick={() => handleDelete(index)}>Delete</button>
+              </div>
+            ))}
+              <button onClick={addCost}>+</button>
+            </div>
+        </div>
+      </div> 
+      <div className="TotalBudget">
+          <button onClick={handleSubmit}>Submit</button>
+          <button onClick={clearFunc}>Clear</button>
+          {/* <button onClick={() => handleSave()}>Save</button> */}
+
+          <div className="">Stored Value: {totalPay}</div> 
+      </div>
     </div>
   );
 };
