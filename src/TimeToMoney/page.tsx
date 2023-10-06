@@ -115,7 +115,7 @@ const TTM: React.FC = () => {
       (100 - taxRatioNumber) *
       0.01;
 
-    setTotalPay(totalPayNumber);
+    setTotalPay(totalPayNumber.toFixed(2));
   };
 
   ///change watcher///
@@ -170,9 +170,9 @@ const TTM: React.FC = () => {
     <div className="display px-6">
       <div className="flex"> 
         <div className="inputArea w-1/2"> 
-        <h1>Working Hour</h1>
+        <h1>Tax & Pay Rate</h1>
 
-          <div className="border-solid border-2 border-black ">
+          <div className="mb-4 border-solid border-2 border-black ">
               <p>Hourly Pay</p>
               <input className="w-2/3 shadow appearance-none border rounded"
                   type="text"
@@ -181,16 +181,16 @@ const TTM: React.FC = () => {
                   onChange={HPhandleChange}
               />
               <p>Tax Ratio</p>
-              <input className="w-2/3"
+              <input className="mb-4 w-2/3 shadow appearance-none border rounded"
                   type="text"
                   placeholder="Enter your TaxRate"
                   value={taxRatio === 0 ? "0" : String(taxRatio)} // Convert to string for input field
                   onChange={taxRatiohandleChange}
               />
           </div>
-          <div className="workingHour area">
+          <div className="border-solid border-2 border-black">
               <p>M-F Working</p>
-              <input className="w-2/3"
+              <input className="w-2/3 shadow appearance-none border rounded"
               type="text"
               placeholder="M-F working hour"
               value={dayWorkTime === 0 ? "0" : String(dayWorkTime)} 
@@ -199,7 +199,7 @@ const TTM: React.FC = () => {
               <p>
                 Saturday Working
               </p>
-              <input className="w-2/3"
+              <input className="w-2/3 shadow appearance-none border rounded"
               type="text"
               placeholder="Saturday working hour"
               value={SatTime === 0 ? "0" : String(SatTime)} 
@@ -208,7 +208,7 @@ const TTM: React.FC = () => {
               <p>
                 Sunday Working
               </p>
-              <input className="w-2/3"
+              <input className="mb-4 w-2/3 shadow appearance-none border rounded"
               type="text"
               placeholder="Sunday working hour"
               value={sunTime === 0 ? "0" : String(sunTime)} 
@@ -222,19 +222,19 @@ const TTM: React.FC = () => {
             <div>
             {fixedcosts.map((row, index) => (
               <div key={index}>
-                <input className="w-1/3"
+                <input className="w-1/3 shadow appearance-none border rounded"
                   type="text"
                   placeholder="Name"
                   value={row.name}
                   onChange={(e) => handleCostNameChange(e, index)}
                 />
-                <input className="w-1/3"
+                <input className="w-1/3 shadow appearance-none border rounded"
                   type="text"
                   placeholder="Value"
                   value={row.cost.toString()} 
                   onChange={(e) => handleCostChange(e, index)} 
                 />
-                <button className="w-1/3" onClick={() => handleDelete(index)}>Delete</button>
+                <button className="w-1/3 shadow appearance-none border rounded" onClick={() => handleDelete(index)}>Delete</button>
               </div>
             ))}
               <button onClick={addCost}>+</button>
@@ -255,5 +255,9 @@ const TTM: React.FC = () => {
 export default TTM;
 /// Add weekly value and store the calculate value with time in local stroage separately and show them in the right side with time stamp.
 /// Add a clear button to clear the local storage and reset the value to 0
-/// change the name of app and icon for web app
-/// make it work without internet
+/// change the name of app and icon for web app -> done
+/// make it work without internet -> done
+
+/// Deputy API works only return ics value>?
+
+
