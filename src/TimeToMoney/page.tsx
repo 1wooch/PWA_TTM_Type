@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const TTM: React.FC = () => {
+
   ///EARINING MONEY VALUES///
   const [hourlyPay, setHourlyPay] = useState<number | string>("0");
   const [dayWorkTime, setDayWorkTime] = useState<number | string>("0");
@@ -35,6 +36,7 @@ const TTM: React.FC = () => {
   useEffect(() => {
     const savedData = localStorage.getItem("savedData");
     const fixedcostsLocal = localStorage.getItem("fixedcosts");
+    console.log("page loaded");
     if (savedData) {
       const savedDataJSON = JSON.parse(savedData);
       setHourlyPay(savedDataJSON.hourlyPay);
@@ -42,14 +44,11 @@ const TTM: React.FC = () => {
       setSatTime(savedDataJSON.SatTime);
       setSunTime(savedDataJSON.sunTime);
       setTaxRatio(savedDataJSON.taxRatio);
-      calculateTotalPay();
-    }
-    if(fixedcostsLocal){
-      
-      
+      if(fixedcostsLocal){
         setFixedcosts(JSON.parse(fixedcostsLocal));
-      
+      }
     }
+    calculateTotalPay();
   }, []);
 
   // Update formData state when any input changes
@@ -107,13 +106,19 @@ const TTM: React.FC = () => {
       taxRatio: taxRatioNumber,
       hourlyPay: hourlyPayNumber,
     } = formData;
+    let TotalSpent=0;
 
-    const totalPayNumber =
+    for (let i = 0; i < fixedcosts.length; i++) {
+      TotalSpent+= fixedcosts[i].cost;
+    }
+    
+    let totalPayNumber =
       ((dayWorkTimeNumber) * hourlyPayNumber +
         SatTimeNumber * (hourlyPayNumber * 1.25) +
         sunTimeNumber * (hourlyPayNumber * 1.5)) *
       (100 - taxRatioNumber) *
       0.01;
+      totalPayNumber-=TotalSpent;
 
     setTotalPay(totalPayNumber.toFixed(2));
   };
@@ -165,7 +170,6 @@ const TTM: React.FC = () => {
     setFixedcosts([...fixedcosts, newFixedCost]);
   };
   ///change watcher///
-
   return (
     <div className="display px-6">
       <div className="flex"> 
@@ -188,6 +192,7 @@ const TTM: React.FC = () => {
                   onChange={taxRatiohandleChange}
               />
           </div>
+          <h1>Working Hour</h1>
           <div className="border-solid border-2 border-black">
               <p>M-F Working</p>
               <input className="w-2/3 shadow appearance-none border rounded"
@@ -229,7 +234,7 @@ const TTM: React.FC = () => {
                   onChange={(e) => handleCostNameChange(e, index)}
                 />
                 <input className="w-1/3 shadow appearance-none border rounded"
-                  type="text"
+                  type="number"
                   placeholder="Value"
                   value={row.cost.toString()} 
                   onChange={(e) => handleCostChange(e, index)} 
@@ -260,4 +265,12 @@ export default TTM;
 
 /// Deputy API works only return ics value>?
 
+/// add modal for add fixed cost? -> how to make modal in typescript react with tailwin? 
 
+/* e.g.  
+add name of the cost
+add cost 
+add whether it is weekly montly fornight and 3month
+and depend on choose it will deduct it weekly pay
+
+*/
