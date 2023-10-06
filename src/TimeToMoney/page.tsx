@@ -167,19 +167,21 @@ const TTM: React.FC = () => {
   ///change watcher///
 
   return (
-    <div className="display">
+    <div className="display px-6">
       <div className="flex"> 
-        <div className="inputArea w-2/5"> 
-          <div className="Base Area">
+        <div className="inputArea w-1/2"> 
+        <h1>Working Hour</h1>
+
+          <div className="border-solid border-2 border-black ">
               <p>Hourly Pay</p>
-              <input
+              <input className="w-2/3 shadow appearance-none border rounded"
                   type="text"
                   placeholder="Enter your Hourly Pay"
                   value={hourlyPay === 0 ? "0" : String(hourlyPay)} // Convert to string for input field
                   onChange={HPhandleChange}
               />
               <p>Tax Ratio</p>
-              <input
+              <input className="w-2/3"
                   type="text"
                   placeholder="Enter your TaxRate"
                   value={taxRatio === 0 ? "0" : String(taxRatio)} // Convert to string for input field
@@ -187,26 +189,26 @@ const TTM: React.FC = () => {
               />
           </div>
           <div className="workingHour area">
-              <p>M-F Working Hour</p>
-              <input
+              <p>M-F Working</p>
+              <input className="w-2/3"
               type="text"
               placeholder="M-F working hour"
               value={dayWorkTime === 0 ? "0" : String(dayWorkTime)} 
               onChange={MFWhandleChange}
               />
               <p>
-                Saturday Working Hour
+                Saturday Working
               </p>
-              <input
+              <input className="w-2/3"
               type="text"
               placeholder="Saturday working hour"
               value={SatTime === 0 ? "0" : String(SatTime)} 
               onChange={SathandleChange}
               />
               <p>
-                Sunday Working Hour
+                Sunday Working
               </p>
-              <input
+              <input className="w-2/3"
               type="text"
               placeholder="Sunday working hour"
               value={sunTime === 0 ? "0" : String(sunTime)} 
@@ -214,25 +216,25 @@ const TTM: React.FC = () => {
               />
           </div>
         </div>
-        <div className="History w-3/5">
+        <div className="History w-1/2">
             <h1>Fixed Spend</h1>
 
             <div>
             {fixedcosts.map((row, index) => (
               <div key={index}>
-                <input
+                <input className="w-1/3"
                   type="text"
                   placeholder="Name"
                   value={row.name}
                   onChange={(e) => handleCostNameChange(e, index)}
                 />
-                <input
+                <input className="w-1/3"
                   type="text"
                   placeholder="Value"
-                  value={row.cost.toString()} // Assuming cost is the property name
-                  onChange={(e) => handleCostChange(e, index)} // Updated event handler name
+                  value={row.cost.toString()} 
+                  onChange={(e) => handleCostChange(e, index)} 
                 />
-                <button onClick={() => handleDelete(index)}>Delete</button>
+                <button className="w-1/3" onClick={() => handleDelete(index)}>Delete</button>
               </div>
             ))}
               <button onClick={addCost}>+</button>
@@ -240,11 +242,11 @@ const TTM: React.FC = () => {
         </div>
       </div> 
       <div className="TotalBudget">
-          <button onClick={handleSubmit}>Submit</button>
-          <button onClick={clearFunc}>Clear</button>
+          <button className="border-r-9 p-1 rounded bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 ..." onClick={handleSubmit}>Submit</button>
+          <button  className="p-1 rounded bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-blue-500 hover:to-purple-500 ..." onClick={clearFunc}>Clear</button>
           {/* <button onClick={() => handleSave()}>Save</button> */}
 
-          <div className="">Stored Value: {totalPay}</div> 
+          <div className="">This Week's Budget: {totalPay}</div> 
       </div>
     </div>
   );
