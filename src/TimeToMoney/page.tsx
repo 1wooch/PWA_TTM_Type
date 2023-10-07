@@ -320,4 +320,3 @@ export default TTM;
   add whether it is weekly montly fornight and 3month
   and depend on choose it will deduct it weekly pay
   */
-*/
