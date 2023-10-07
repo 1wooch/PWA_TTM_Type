@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ModalContent from "./Addmodal";
 
 const TTM: React.FC = () => {
 
@@ -17,6 +18,7 @@ const TTM: React.FC = () => {
   interface fixedcost {
     name?: string;
     cost: number;
+    payPeriod?: string;
   }
   
   
@@ -36,7 +38,7 @@ const TTM: React.FC = () => {
   useEffect(() => {
     const savedData = localStorage.getItem("savedData");
     const fixedcostsLocal = localStorage.getItem("fixedcosts");
-    console.log("page loaded");
+    
     if (savedData) {
       const savedDataJSON = JSON.parse(savedData);
       setHourlyPay(savedDataJSON.hourlyPay);
@@ -161,20 +163,33 @@ const TTM: React.FC = () => {
   };
  
 
-  const addCost = () => {
+  const addCost = (payname:string , costNum:number, payPeriodStr:string) => {
     const newFixedCost: fixedcost = {
-      name: "",
-      cost: 0,
+      name: payname,
+      cost: costNum,
+      payPeriod: payPeriodStr,
     };
   
     setFixedcosts([...fixedcosts, newFixedCost]);
+    closeModal();
   };
   ///change watcher///
+
+  ///Modal///
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
+  ///Modal///
   return (
     <div className="display px-6">
-      <div className="flex"> 
-        <div className="inputArea w-1/2"> 
-        <h1>Tax & Pay Rate</h1>
+      <div className="flex "> 
+        <div className="inputArea w-1/2 mr-2"> 
+        <div className="flex">
+          <h1 className="w-1/2">Tax & Pay Rate</h1>
+          <button  className="mb-3 px-3 rounded bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-blue-500 hover:to-purple-500 ..." onClick={clearFunc}>Clear</button>
+        </div>
+       
 
           <div className="mb-4 border-solid border-2 border-black ">
               <p>Hourly Pay</p>
@@ -221,7 +236,7 @@ const TTM: React.FC = () => {
               />
           </div>
         </div>
-        <div className="History w-1/2">
+        <div className="History w-1/2 ">
             <h1>Fixed Spend</h1>
 
             <div>
@@ -239,20 +254,33 @@ const TTM: React.FC = () => {
                   value={row.cost.toString()} 
                   onChange={(e) => handleCostChange(e, index)} 
                 />
+                <p>
+                  {row.payPeriod}
+                </p>
                 <button className="w-1/3 shadow appearance-none border rounded" onClick={() => handleDelete(index)}>Delete</button>
               </div>
             ))}
-              <button onClick={addCost}>+</button>
+              <button
+                onClick={openModal}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  +
+                </button>
+                {isOpen && <ModalContent  addCost={addCost} />}
             </div>
         </div>
       </div> 
-      <div className="TotalBudget">
-          <button className="border-r-9 p-1 rounded bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 ..." onClick={handleSubmit}>Submit</button>
-          <button  className="p-1 rounded bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-blue-500 hover:to-purple-500 ..." onClick={clearFunc}>Clear</button>
-          {/* <button onClick={() => handleSave()}>Save</button> */}
+        <div className="TotalBudget">
+            <button className="border-r-9 p-1 mt-4 rounded bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 ..." onClick={handleSubmit}>
+              Calculate
+            </button>
+            {/* <button onClick={() => handleSave()}>Save</button> */}
 
-          <div className="">This Week's Budget: {totalPay}</div> 
-      </div>
+            <div className="">This Week's Budget: {totalPay}</div> 
+        </div>
+      <div>
+    </div>
+      
     </div>
   );
 };
@@ -260,8 +288,7 @@ const TTM: React.FC = () => {
 export default TTM;
 /// Add weekly value and store the calculate value with time in local stroage separately and show them in the right side with time stamp.
 /// Add a clear button to clear the local storage and reset the value to 0
-/// change the name of app and icon for web app -> done
-/// make it work without internet -> done
+
 
 /// Deputy API works only return ics value>?
 
@@ -272,5 +299,11 @@ add name of the cost
 add cost 
 add whether it is weekly montly fornight and 3month
 and depend on choose it will deduct it weekly pay
+
+*/
+
+/* Done List
+/// change the name of app and icon for web app -> done
+/// make it work without internet -> done
 
 */
