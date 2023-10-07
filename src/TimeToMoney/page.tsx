@@ -115,21 +115,30 @@ const TTM: React.FC = () => {
       switch (fixedcosts[i].payPeriod) {
         case 'Weekly':
           paydevider=1;
+          break;
+
         case 'Fortnightly':
           paydevider=2;
+          break;
+
         case 'Monthly':
           paydevider=4;
+          break;
+
         case '3 Monthly':
           paydevider=13;
+          break;
+
         case 'Yearly':
           paydevider=52;
+          break;
+
         default:
           break;
       }
       TotalSpent+=fixedcosts[i].cost/paydevider;
-      
+      console.log(2/1);
     }
-    
     let totalPayNumber =
       ((dayWorkTimeNumber) * hourlyPayNumber +
         SatTimeNumber * (hourlyPayNumber * 1.25) +

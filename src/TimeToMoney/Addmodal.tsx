@@ -7,13 +7,17 @@ interface ModalContentProps {
 }
 
 const ModalContent: React.FC<ModalContentProps> = ({ addCost }) => {
-  let payName="";
-  let costNum=0;
+  const [payName, setPayName] = useState('');
+  const [costNum, setCostNum] = useState(0);
+
   let payPeriodStr="";
   const [selectedOption, setSelectedOption] = useState<string>('');
   const handleClose = () => {
     addCost(payName, costNum, payPeriodStr);
   };
+
+  
+
   ///Drop Down///
   const [isOpen, setIsOpen] = useState(false);
   const handleDropdownSelect = (option: string) => {
@@ -53,11 +57,15 @@ const ModalContent: React.FC<ModalContentProps> = ({ addCost }) => {
                     type="text"
                     placeholder="Name"
                     value={payName}
+                    onChange={(e) => setPayName(e.target.value)} // Add onChange handler
+
             />
             <input className="w-1/3 shadow appearance-none border rounded"
                     type="text"
                     placeholder="Cost"
                     value={costNum}
+                    onChange={(e) => setCostNum(Number(e.target.value))} // Add onChange handler
+
             />
             
           {/* ... */}
