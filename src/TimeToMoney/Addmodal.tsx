@@ -69,7 +69,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ addCost }) => {
                 type="button"
                 className="bg-blue-500 text-white active:bg-blue-600 font-semibold text-sm px-4 py-2 rounded outline-none focus:outline-none"
               >
-                Dropdown
+                Pay Period
               </button>
             </div>
             {isOpen && (

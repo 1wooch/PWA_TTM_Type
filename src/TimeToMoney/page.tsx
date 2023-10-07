@@ -111,7 +111,23 @@ const TTM: React.FC = () => {
     let TotalSpent=0;
 
     for (let i = 0; i < fixedcosts.length; i++) {
-      TotalSpent+= fixedcosts[i].cost;
+      let paydevider=0;
+      switch (fixedcosts[i].payPeriod) {
+        case 'Weekly':
+          paydevider=1;
+        case 'Fortnightly':
+          paydevider=2;
+        case 'Monthly':
+          paydevider=4;
+        case '3 Monthly':
+          paydevider=13;
+        case 'Yearly':
+          paydevider=52;
+        default:
+          break;
+      }
+      TotalSpent+=fixedcosts[i].cost/paydevider;
+      
     }
     
     let totalPayNumber =
@@ -254,9 +270,9 @@ const TTM: React.FC = () => {
                   value={row.cost.toString()} 
                   onChange={(e) => handleCostChange(e, index)} 
                 />
-                <p>
+                {/* <p>
                   {row.payPeriod}
-                </p>
+                </p> */}
                 <button className="w-1/3 shadow appearance-none border rounded" onClick={() => handleDelete(index)}>Delete</button>
               </div>
             ))}
@@ -287,23 +303,21 @@ const TTM: React.FC = () => {
 
 export default TTM;
 /// Add weekly value and store the calculate value with time in local stroage separately and show them in the right side with time stamp.
-/// Add a clear button to clear the local storage and reset the value to 0
-
-
+/// Add a clear button to clear the local storage and reset the value to 0 -> only exist for pay and tax but need to add for fixed cost (10/08)
 /// Deputy API works only return ics value>?
+/// additional modal for edit
 
-/// add modal for add fixed cost? -> how to make modal in typescript react with tailwin? 
 
-/* e.g.  
-add name of the cost
-add cost 
-add whether it is weekly montly fornight and 3month
-and depend on choose it will deduct it weekly pay
 
-*/
 
 /* Done List
 /// change the name of app and icon for web app -> done
 /// make it work without internet -> done
-
+/// add modal for add fixed cost? -> how to make modal in typescript react with tailwin? 
+  /* e.g.  
+  add name of the cost
+  add cost 
+  add whether it is weekly montly fornight and 3month
+  and depend on choose it will deduct it weekly pay
+  */
 */
