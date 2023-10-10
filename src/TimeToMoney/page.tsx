@@ -97,7 +97,24 @@ const TTM: React.FC = () => {
     setSunTime(0);
     setTaxRatio(0);
     setTotalPay(0);
+    clearFixedCost();
 };
+
+const clearHours=()=>{
+  setDayWorkTime(0);
+  setSatTime(0);
+  setSunTime(0);
+
+};
+
+const clearTaxandRate=()=>{
+  setTaxRatio(0);
+  setHourlyPay(0);
+}
+
+const clearFixedCost=()=>{
+  setFixedcosts([]);
+}
 
   const calculateTotalPay = () => {
     // Calculate totalPay using formData
@@ -212,7 +229,7 @@ const TTM: React.FC = () => {
         <div className="inputArea w-1/2 mr-2"> 
         <div className="flex">
           <h1 className="w-1/2">Tax & Pay Rate</h1>
-          <button  className="mb-3 px-3 rounded bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-blue-500 hover:to-purple-500 ..." onClick={clearFunc}>Clear</button>
+          <button  className="mb-3 px-3 rounded bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-blue-500 hover:to-purple-500 ..." onClick={clearTaxandRate}>Clear Tax and Hourly Pay</button>
         </div>
        
 
@@ -232,7 +249,9 @@ const TTM: React.FC = () => {
                   onChange={taxRatiohandleChange}
               />
           </div>
-          <h1>Working Hour</h1>
+          <h1>Working Hour</h1> 
+          <button  className="mb-3 px-3 rounded bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-blue-500 hover:to-purple-500 ..." onClick={clearHours}>Clear Working Hours</button>
+
           <div className="border-solid border-2 border-black">
               <p>M-F Working</p>
               <input className="w-2/3 shadow appearance-none border rounded"
@@ -260,9 +279,11 @@ const TTM: React.FC = () => {
               onChange={SunhandleChange}
               />
           </div>
+
         </div>
         <div className="History w-1/2 ">
             <h1>Fixed Spend</h1>
+            <button  className="mb-3 px-3 rounded bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-blue-500 hover:to-purple-500 ..." onClick={clearFixedCost}>Clear Fixed Cost</button>
 
             <div>
             {fixedcosts.map((row, index) => (
@@ -299,6 +320,8 @@ const TTM: React.FC = () => {
             <button className="border-r-9 p-1 mt-4 rounded bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 ..." onClick={handleSubmit}>
               Calculate
             </button>
+            <button  className="mb-3 px-3 rounded bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-blue-500 hover:to-purple-500 ..." onClick={clearFunc}>Clear All</button>
+
             {/* <button onClick={() => handleSave()}>Save</button> */}
 
             <div className="">This Week's Budget: {totalPay}</div> 
@@ -311,6 +334,18 @@ const TTM: React.FC = () => {
 };
 
 export default TTM;
+
+/// TODO LIST?///
+
+///PRIORITIES///
+
+/// some reason after it pushed and updated it doesn't update on the web app but it does update on the web app -> work now but it happens after it updates
+
+/// need to check before it calculate whether there is any value in fixed cost is 0 or name is empty and if it is empty it should not calculate it
+
+
+///MINOR///
+
 /// Add weekly value and store the calculate value with time in local stroage separately and show them in the right side with time stamp.
 /// Add a clear button to clear the local storage and reset the value to 0 -> only exist for pay and tax but need to add for fixed cost (10/08)
 /// Deputy API works only return ics value>?
