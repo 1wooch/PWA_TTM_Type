@@ -36,22 +36,28 @@ const TTM: React.FC = () => {
 
   // Check for and retrieve data from localStorage when the component mounts
   useEffect(() => {
-    const savedData = localStorage.getItem("savedData");
-    const fixedcostsLocal = localStorage.getItem("fixedcosts");
-    
-    if (savedData) {
-      const savedDataJSON = JSON.parse(savedData);
-      setHourlyPay(savedDataJSON.hourlyPay);
-      setDayWorkTime(savedDataJSON.dayWorkTime);
-      setSatTime(savedDataJSON.SatTime);
-      setSunTime(savedDataJSON.sunTime);
-      setTaxRatio(savedDataJSON.taxRatio);
-      if(fixedcostsLocal){
-        setFixedcosts(JSON.parse(fixedcostsLocal));
-      }
-    }
+    getDataFromLocalStorage();
     calculateTotalPay();
   }, []);
+
+//get data from local Storage and set it to the state
+
+const getDataFromLocalStorage=()=>{
+  const savedData = localStorage.getItem("savedData");
+  const fixedcostsLocal = localStorage.getItem("fixedcosts");
+  
+  if (savedData) {
+    const savedDataJSON = JSON.parse(savedData);
+    setHourlyPay(savedDataJSON.hourlyPay);
+    setDayWorkTime(savedDataJSON.dayWorkTime);
+    setSatTime(savedDataJSON.SatTime);
+    setSunTime(savedDataJSON.sunTime);
+    setTaxRatio(savedDataJSON.taxRatio);
+    if(fixedcostsLocal){
+      setFixedcosts(JSON.parse(fixedcostsLocal));
+    }
+  }
+}
 
   // Update formData state when any input changes
   useEffect(() => {
@@ -67,6 +73,7 @@ const TTM: React.FC = () => {
 
 ///Save functions///
   const handleSubmit = () => {
+    //localStorage.clear();
     calculateTotalPay();
     handleCostSave();
     localStorage.setItem("savedData", JSON.stringify(formData));
@@ -75,6 +82,7 @@ const TTM: React.FC = () => {
   const handleCostSave = () => { //saving the costs in local storage
     localStorage.setItem("fixedcosts", JSON.stringify(fixedcosts));
   };
+
 ///Save functions///
 
 ///Delete functions///
@@ -91,6 +99,9 @@ const TTM: React.FC = () => {
 
 
   const clearFunc = () => {
+    localStorage.setItem("savedData", JSON.stringify(formData));
+    localStorage.setItem("fixedcosts", JSON.stringify(fixedcosts));
+
     setHourlyPay(0);
     setDayWorkTime(0);
     setSatTime(0);
@@ -98,6 +109,7 @@ const TTM: React.FC = () => {
     setTaxRatio(0);
     setTotalPay(0);
     clearFixedCost();
+    setUndo(true);
 };
 
 const clearHours=()=>{
@@ -117,6 +129,7 @@ const clearFixedCost=()=>{
 }
 
   const calculateTotalPay = () => {
+    setUndo(false);
     // Calculate totalPay using formData
     const {
       dayWorkTime: dayWorkTimeNumber,
@@ -154,7 +167,6 @@ const clearFixedCost=()=>{
           break;
       }
       TotalSpent+=fixedcosts[i].cost/paydevider;
-      console.log(2/1);
     }
     let totalPayNumber =
       ((dayWorkTimeNumber) * hourlyPayNumber +
@@ -223,6 +235,21 @@ const clearFixedCost=()=>{
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
   ///Modal///
+
+
+//Undo button//
+
+const [Undo,  setUndo] = useState(false);
+const UndoClick=()=>{
+  getDataFromLocalStorage();
+  setUndo(false);
+}
+
+
+//Undo button//
+
+
+
   return (
     <div className="display px-6">
       <div className="flex "> 
@@ -321,6 +348,9 @@ const clearFixedCost=()=>{
               Calculate
             </button>
             <button  className="mb-3 px-3 rounded bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-blue-500 hover:to-purple-500 ..." onClick={clearFunc}>Clear All</button>
+            {Undo && (
+              <button className="mb-3 px-3 rounded bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-blue-500 hover:to-purple-500 ..." onClick={UndoClick}>UNDO CLEAR</button>
+            )}
 
             {/* <button onClick={() => handleSave()}>Save</button> */}
 
@@ -339,7 +369,7 @@ export default TTM;
 
 ///PRIORITIES///
 
-/// some reason after it pushed and updated it doesn't update on the web app but it does update on the web app -> work now but it happens after it updates
+///INPUT value check  e.g. whether the user input string in number value  
 
 /// need to check before it calculate whether there is any value in fixed cost is 0 or name is empty and if it is empty it should not calculate it
 
@@ -349,15 +379,18 @@ export default TTM;
 /// Add weekly value and store the calculate value with time in local stroage separately and show them in the right side with time stamp.
 /// Add a clear button to clear the local storage and reset the value to 0 -> only exist for pay and tax but need to add for fixed cost (10/08)
 /// Deputy API works only return ics value>?
-/// additional modal for edit
+/// additional modal for edit?
 
 
 
 
 /* Done List
+/// some reason after it pushed and updated it doesn't update on the web app but it does update on the web app -> work now but it happens after it updates
 /// change the name of app and icon for web app -> done
 /// make it work without internet -> done
 /// add modal for add fixed cost? -> how to make modal in typescript react with tailwin? 
+/// add undo button -> done 10/10/23
+/// add clear button -> done 10/10/23
   /* e.g.  
   add name of the cost
   add cost 
