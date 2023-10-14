@@ -372,13 +372,15 @@ export default TTM;
 ///INPUT value check  e.g. whether the user input string in number value  
 
 /// need to check before it calculate whether there is any value in fixed cost is 0 or name is empty and if it is empty it should not calculate it
+// -> if this week money <100 then number should be in red color, <0 display no money, >100 display in green color and >500 will show rich meme
 
 
 ///MINOR///
 
 /// Add weekly value and store the calculate value with time in local stroage separately and show them in the right side with time stamp.
 /// Add a clear button to clear the local storage and reset the value to 0 -> only exist for pay and tax but need to add for fixed cost (10/08)
-/// Deputy API works only return ics value>?
+/// Deputy API works only return ics value>? -> get deputy API and run it everytime application or webpage open. After that check and put only this week's work time and input the value.
+
 /// additional modal for edit?
 
 
