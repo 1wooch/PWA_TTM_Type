@@ -265,8 +265,6 @@ const clearFixedCost=()=>{
   const openWarningModal=()=>setWorningOpen(true);
   const closeWarningModal=()=>setWorningOpen(false);
 
-  
-
   ///WarningModal///
 
 //Undo button//
@@ -280,7 +278,25 @@ const UndoClick=()=>{
 
 //Undo button//
 
+///change budget color depend on the value///
 
+const changeBudgetColor =()=>{
+  if( Number(totalPay)<100 && Number(totalPay)>0 || Number(totalPay)<0){
+    return "text-red-500"
+  }
+  else if(Number(totalPay)>100 && Number(totalPay)<500){
+    return "text-green-500"
+  }
+  else if(Number(totalPay)>500){
+    return "text-blue-500"
+  }
+  else{
+    return "text-black"
+  }
+}
+
+
+///change budget color depend on the value///
 
   return (
     <div className="display px-6">
@@ -386,7 +402,8 @@ const UndoClick=()=>{
 
             {/* <button onClick={() => handleSave()}>Save</button> */}
 
-            <div className="">This Week's Budget: {totalPay}</div> 
+            <div className={`wonwoo ${changeBudgetColor()}`}>
+              This Week's Budget: {totalPay}</div> 
         </div>
       <div>
     </div>
