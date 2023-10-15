@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ModalContent from "./Addmodal";
+import WarningModal from "./Warning";
+
 
 const TTM: React.FC = () => {
 
@@ -182,21 +184,35 @@ const clearFixedCost=()=>{
   ///change watcher///
 
   const HPhandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHourlyPay(e.target.value);
+    if(!isNaN(+e.target.value)){
+      setHourlyPay(e.target.value);
+    }
   };
   const MFWhandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(!isNaN(+e.target.value)){
+
     setDayWorkTime(e.target.value);
+    }
   };
 
   const SathandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(!isNaN(+e.target.value)){
     setSatTime(e.target.value);
+    }
   };
   const SunhandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(!isNaN(+e.target.value)){
     setSunTime(e.target.value);
+    }
   };
 
   const taxRatiohandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTaxRatio(e.target.value);
+    
+    if(!isNaN(+e.target.value)){
+      setTaxRatio(e.target.value);
+    }
+
+    
   };
   ///cost change///
   const handleCostNameChange = (e: React.ChangeEvent<HTMLInputElement>,index:number) => {
@@ -208,16 +224,21 @@ const clearFixedCost=()=>{
     setFixedcosts(updatedFixedcosts);
   };
   const handleCostChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    if(!isNaN(+e.target.value)){
+
     const updatedFixedcosts = [...fixedcosts];
     updatedFixedcosts[index] = {
       ...updatedFixedcosts[index],
       cost: parseFloat(e.target.value) || 0, // Parse the input value as a float or default to 0
     };
     setFixedcosts(updatedFixedcosts);
+  }
   };
  
 
   const addCost = (payname:string , costNum:number, payPeriodStr:string) => {
+    console.log(!isNaN(+costNum)); // true if its a number, false if not
+
     const newFixedCost: fixedcost = {
       name: payname,
       cost: costNum,
@@ -229,13 +250,24 @@ const clearFixedCost=()=>{
   };
   ///change watcher///
 
-  ///Modal///
+  ///ADDModal///
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
-  ///Modal///
+  ///AddModal///
 
+  ///WarningModal///
+
+  const [warningOpen,setWorningOpen]=useState(false);
+  const [warningContentExport,setWarningContentExport]=useState("");
+
+  const openWarningModal=()=>setWorningOpen(true);
+  const closeWarningModal=()=>setWorningOpen(false);
+
+  
+
+  ///WarningModal///
 
 //Undo button//
 
@@ -306,7 +338,7 @@ const UndoClick=()=>{
               onChange={SunhandleChange}
               />
           </div>
-
+        {warningOpen && <WarningModal warningContent={warningContentExport} />}
         </div>
         <div className="History w-1/2 ">
             <h1>Fixed Spend</h1>
