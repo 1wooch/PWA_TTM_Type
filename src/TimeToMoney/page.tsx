@@ -418,10 +418,6 @@ export default TTM;
 
 ///PRIORITIES///
 
-///INPUT value check  e.g. whether the user input string in number value  
-
-/// need to check before it calculate whether there is any value in fixed cost is 0 or name is empty and if it is empty it should not calculate it
-// -> if this week money <100 then number should be in red color, <0 display no money, >100 display in green color and >500 will show rich meme
 
 
 ///MINOR///
@@ -441,7 +437,11 @@ export default TTM;
 /// make it work without internet -> done
 /// add modal for add fixed cost? -> how to make modal in typescript react with tailwin? 
 /// add undo button -> done 10/10/23
-/// add clear button -> done 10/10/23
+/// add clear button -> done 10/10/23///INPUT value check  e.g. whether the user input string in number value  
+
+/// need to check before it calculate whether there is any value in fixed cost is 0 or name is empty and if it is empty it should not calculate it -> Done 15/10/23
+// -> if this week money <100 then number should be in red color, <0 display no money, >100 display in green color and >500 will show rich meme
+-> Done 15/10/23
   /* e.g.  
   add name of the cost
   add cost 
